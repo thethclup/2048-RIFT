@@ -1,6 +1,9 @@
-// src/api/agent.ts
-export default function handler() {
-  return Response.json({
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
+  return NextResponse.json({
     name: "2048 Rift Orchestrator",
     status: "active",
     wallet: "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",

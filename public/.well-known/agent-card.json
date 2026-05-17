@@ -1,42 +1,60 @@
 {
   "name": "2048 Rift Orchestrator",
-  "description": "2048 Rift platformunda çalışan ERC-8004 uyumlu AI Agent. 2048 mechanics, rift merging, tile orchestration ve puzzle automation yapan akıllı orchestrator.",
+  "description": "High-performance AI Agent specialized in 2048 Rift mechanics, real-time automation, dimension management, competitive optimization and ecosystem coordination on Base.",
   "version": "1.0.0",
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "image": "https://2048-rift.vercel.app/logo.png",
-  "wallets": {
-    "base": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6"
-  },
+  "owner": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
+  "agentWallet": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
+  "active": true,
+  "skills": [
+    {
+      "id": "rift-merging",
+      "name": "Rift Merging",
+      "description": "Cross-dimensional merging and combo orchestration."
+    },
+    {
+      "id": "puzzle-automation",
+      "name": "Puzzle Automation",
+      "description": "Automated swipe calculations and dimension switching."
+    },
+    {
+      "id": "score-optimization",
+      "name": "Score Optimization",
+      "description": "Analyze and optimize tile placement for max score."
+    }
+  ],
   "services": [
     {
       "name": "A2A",
-      "endpoint": "https://2048-rift.vercel.app/.well-known/agent-card.json",
       "version": "1.0.0",
-      "description": "Agent-to-Agent communication"
+      "endpoint": "https://2048-rift.vercel.app/.well-known/agent-card.json"
     },
     {
       "name": "MCP",
-      "endpoint": "https://2048-rift.vercel.app/api/mcp",
       "version": "1.0.0",
-      "description": "Model Context Protocol - Active command execution"
+      "endpoint": "https://2048-rift.vercel.app/api/mcp"
     },
     {
       "name": "API",
-      "endpoint": "https://2048-rift.vercel.app/api/agent",
       "version": "1.0.0",
-      "description": "Main agent control API"
+      "endpoint": "https://2048-rift.vercel.app/api/agent"
     }
   ],
   "capabilities": [
     "2048-mechanics",
-    "rift-merging",
-    "tile-orchestration",
-    "puzzle-automation",
+    "real-time-automation",
+    "rift-management",
     "score-optimization",
-    "game-strategy",
-    "mcp-command-execution"
+    "multi-track-orchestration"
   ],
   "supportedChains": ["eip155:8453"],
-  "active": true,
-  "status": "online"
+  "x402Support": false,
+  "registrations": [
+    {
+      "agentId": null,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "supportedTrust": ["reputation"]
 }
