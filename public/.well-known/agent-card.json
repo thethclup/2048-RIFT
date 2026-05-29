@@ -7,6 +7,23 @@
   "wallets": {
     "base": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6"
   },
+  "skills": [
+    {
+      "id": "rift-merging",
+      "name": "Rift Merging",
+      "description": "Cross-dimensional merging and combo orchestration."
+    },
+    {
+      "id": "puzzle-automation",
+      "name": "Puzzle Automation",
+      "description": "Automated swipe calculations and dimension switching."
+    },
+    {
+      "id": "score-optimization",
+      "name": "Score Optimization",
+      "description": "Analyze and optimize tile placement for max score."
+    }
+  ],
   "services": [
     {
       "name": "A2A",

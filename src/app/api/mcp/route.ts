@@ -6,6 +6,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Cache-Control': 'no-store, max-age=0',
 };
 
 const TOOLS = [
@@ -36,6 +37,14 @@ const TOOLS = [
   }
 ];
 
+const PROMPTS = [
+  {
+    name: "analyze_rift",
+    description: "Analyze current rift state",
+    arguments: []
+  }
+];
+
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: CORS_HEADERS });
 }
@@ -48,12 +57,12 @@ export async function GET() {
     status: "active",
     description: "High-performance AI Agent specialized in 2048 Rift mechanics, real-time automation, dimension management, competitive optimization and ecosystem coordination on Base.",
     capabilities: {
-      tools: {},
-      prompts: {},
+      tools: { listChanged: true },
+      prompts: { listChanged: true },
       resources: {}
     },
     tools: TOOLS,
-    prompts: [],
+    prompts: PROMPTS,
     resources: [],
     timestamp: new Date().toISOString()
   }, { headers: CORS_HEADERS });
@@ -87,7 +96,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
           jsonrpc: "2.0",
           id: id,
-          result: { prompts: [] }
+          result: { prompts: PROMPTS }
         }, { headers: CORS_HEADERS });
       } else if (method === "resources/list") {
         return NextResponse.json({
@@ -101,7 +110,7 @@ export async function POST(req: Request) {
           id: id,
           result: {
             protocolVersion: "2024-11-05",
-            capabilities: { tools: {}, prompts: {}, resources: {} },
+            capabilities: { tools: { listChanged: true }, prompts: { listChanged: true }, resources: {} },
             serverInfo: { name: "2048 Rift Orchestrator", version: "1.0.0" }
           }
         }, { headers: CORS_HEADERS });
