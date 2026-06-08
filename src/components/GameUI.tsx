@@ -4,8 +4,8 @@ import { useGameStore } from "@/lib/store/useGameStore";
 import { RiftBoard } from "@/components/RiftBoard";
 import { useSwipe } from "@/hooks/useSwipe";
 import { motion } from "framer-motion";
-import { ArrowLeftRight, RotateCcw, Trophy, Wallet } from "lucide-react";
-import { useAccount, useSignMessage } from "wagmi";
+import { ArrowLeftRight, RotateCcw, Trophy, Wallet, Sun } from "lucide-react";
+import { useAccount, useSignMessage, useSendTransaction } from "wagmi";
 import { generateAttributionPayload } from "@/lib/erc8021";
 import { Providers } from "@/components/Providers";
 
@@ -21,8 +21,9 @@ function GameUIContent() {
   useSwipe();
   const { rifts, activeRiftId, setActiveRift, score, bestScore, status, startGame, mergeRifts, spinActiveRift } = useGameStore();
   
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { signMessage } = useSignMessage();
+  const { sendTransactionAsync } = useSendTransaction();
 
   const handleRecordOnChain = () => {
     if (!address) return alert("Please connect wallet first!");
@@ -34,6 +35,19 @@ function GameUIContent() {
       onSuccess: () => alert("Score recorded on-chain successfully! (Mocked via SIWE)"),
       onError: (err) => alert("Failed to record: " + err.message)
     });
+  };
+
+  const sendGMTransaction = async () => {
+    if (!address) return alert("Please connect wallet first!");
+    try {
+      const hash = await sendTransactionAsync({
+        to: '0xc35B9997B63B1CE14f8F513f7eddD9a7ABbB33d7',
+        value: 0n,
+      });
+      alert("GM Transaction sent! Hash: " + hash);
+    } catch (err: any) {
+      alert("Failed to send GM: " + err.message);
+    }
   };
 
   if (status === 'menu') {
@@ -62,7 +76,17 @@ function GameUIContent() {
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto w-full p-4 safe-area-pt">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8 p-4 bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl">
+      <div className="flex items-center justify-between mb-8 p-4 bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl relative">
+        {isConnected && (
+           <div className="absolute -top-12 right-0">
+             <button 
+                onClick={sendGMTransaction}
+                className="px-3 py-2 rounded-lg bg-[#E8A020]/20 hover:bg-[#E8A020]/30 border border-[#E8A020]/40 text-[#E8A020] transition-colors flex items-center gap-2 font-['Cinzel'] text-xs font-bold"
+             >
+                <Sun className="w-4 h-4" /> Say GM
+             </button>
+           </div>
+        )}
         <div>
           <div className="text-[10px] text-slate-400 tracking-widest font-bold uppercase mb-1">Score</div>
           <div className="text-2xl font-mono font-black text-cyan-400">{score}</div>
@@ -130,13 +154,21 @@ function GameUIContent() {
           <div className="text-5xl font-mono font-black text-cyan-400 mb-12">{score}</div>
 
           <div className="flex flex-col gap-4 w-full max-w-sm">
+            {isConnected && (
+              <button 
+                onClick={sendGMTransaction}
+                className="px-3 py-2 rounded-lg bg-[#E8A020]/20 hover:bg-[#E8A020]/30 border border-[#E8A020]/40 text-[#E8A020] transition-colors flex items-center justify-center gap-2 font-['Cinzel'] text-xs font-bold w-full"
+              >
+                <Sun className="w-4 h-4" /> Say GM
+              </button>
+            )}
             <button 
               onClick={handleRecordOnChain}
               className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl font-bold flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-lg shadow-blue-900/20 text-white tracking-widest text-sm"
             >
-              <Wallet className="w-5 h-5" />
-              RECORD ON-CHAIN (SIWE)
-            </button>
+                <Wallet className="w-5 h-5" />
+                Record This Rift Run on-chain
+              </button>
             <button 
               onClick={startGame}
               className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-xl rounded-xl font-bold transition-colors text-slate-300 tracking-widest text-sm"

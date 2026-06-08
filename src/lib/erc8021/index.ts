@@ -1,5 +1,5 @@
-export const ERC8021_ATTRIBUTION = "ATTRIBUTION_CODE";
-export const ERC8021_BUILDER = "bc_4pftcpgk";
+export const ERC8021_ATTRIBUTION = "[ATTRIBUTION_CODE]";
+export const ERC8021_BUILDER = "[BUILDER_CODE]";
 
 export function generateAttributionPayload(action: string, metadata?: Record<string, any>) {
   return {
