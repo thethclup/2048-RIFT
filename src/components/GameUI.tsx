@@ -42,7 +42,7 @@ function GameUIContent() {
     try {
       const hash = await sendTransactionAsync({
         to: '0xc35B9997B63B1CE14f8F513f7eddD9a7ABbB33d7',
-        value: 0n,
+        value: BigInt(0),
       });
       alert("GM Transaction sent! Hash: " + hash);
     } catch (err: any) {
