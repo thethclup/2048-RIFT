@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description: "A dimension-bending evolution of 2048",
   other: {
     "base:app_id": "69226fa37fdd1c481203659d",
+    "talentapp:project_verification": "c8c41075ced6cd95de56ff773518f88382715d5ceb274a0aa4209c5d67bb0d237d4fc0a79dc8a4dc9326b2b00506e2c6bb2d1a7dc660c1a4c4852ad39ff3dda5",
   },
 };
 
