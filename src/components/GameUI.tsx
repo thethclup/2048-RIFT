@@ -5,7 +5,7 @@ import { RiftBoard } from "@/components/RiftBoard";
 import { useSwipe } from "@/hooks/useSwipe";
 import { motion } from "framer-motion";
 import { ArrowLeftRight, RotateCcw, Trophy, Wallet, Sun } from "lucide-react";
-import { useAccount, useSignMessage, useSendTransaction } from "wagmi";
+import { useAccount, useSignMessage, useSendTransaction, useConnect, useDisconnect } from "wagmi";
 import { generateAttributionPayload } from "@/lib/erc8021";
 import { Providers } from "@/components/Providers";
 
@@ -21,7 +21,9 @@ function GameUIContent() {
   useSwipe();
   const { rifts, activeRiftId, setActiveRift, score, bestScore, status, startGame, mergeRifts, spinActiveRift } = useGameStore();
   
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isConnecting } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { disconnect } = useDisconnect();
   const { signMessage } = useSignMessage();
   const { sendTransactionAsync } = useSendTransaction();
 
@@ -43,6 +45,7 @@ function GameUIContent() {
       const hash = await sendTransactionAsync({
         to: '0xc35B9997B63B1CE14f8F513f7eddD9a7ABbB33d7',
         value: BigInt(0),
+        data: '0x07626173656170700080218021802180218021802180218021' as `0x${string}`,
       });
       alert("GM Transaction sent! Hash: " + hash);
     } catch (err: any) {
@@ -77,6 +80,29 @@ function GameUIContent() {
     <div className="flex flex-col h-screen max-w-md mx-auto w-full p-4 safe-area-pt">
       {/* Header */}
       <div className="flex items-center justify-between mb-8 p-4 bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl relative">
+        <div className="absolute -top-12 left-0">
+          {!isConnected ? (
+             <div className="flex gap-2">
+               {connectors.map((connector) => (
+                 <button
+                   key={connector.uid}
+                   onClick={() => connect({ connector })}
+                   disabled={isConnecting}
+                   className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors text-xs font-bold"
+                 >
+                   Connect {connector.name}
+                 </button>
+               ))}
+             </div>
+          ) : (
+             <button 
+                onClick={() => disconnect()}
+                className="px-3 py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 transition-colors flex items-center gap-2 text-xs font-bold"
+             >
+                Disconnect ({address?.slice(0, 6)}...)
+             </button>
+          )}
+        </div>
         {isConnected && (
            <div className="absolute -top-12 right-0">
              <button 
